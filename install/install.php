@@ -149,12 +149,20 @@ if (isset($_REQUEST['forceinstall']) AND ($_REQUEST['forceinstall'] == 1)) {
 		}
 	} else { //form has not been submitted
 		//initialize variables to default values
+
+		$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+		$server = $url["host"];
+		$username = $url["user"];
+		$password = $url["pass"];
+		$db = substr($url["path"], 1);
+
 		$_REQUEST['db_type'] = 'MYSQL';
-		$_REQUEST['db_host'] = 'localhost';
-		$_REQUEST['db_port'] = '3306';
-		$_REQUEST['db_user'] = 'root';
-		$_REQUEST['db_password'] = '';
-		$_REQUEST['database_name'] = 'tcexam';
+		$_REQUEST['db_host'] = $server;
+		$_REQUEST['db_port'] = 3306;
+		$_REQUEST['db_user'] = $username;
+		$_REQUEST['db_password'] = $password;
+		$_REQUEST['database_name'] = $db;
 		$_REQUEST['table_prefix'] = 'tce_';
 		if (isset($_SERVER['HTTP_HOST']) and !empty($_SERVER['HTTP_HOST'])) {
 			if(isset($_SERVER['HTTPS']) AND !empty($_SERVER['HTTPS']) AND strtolower($_SERVER['HTTPS'])!='off') {
